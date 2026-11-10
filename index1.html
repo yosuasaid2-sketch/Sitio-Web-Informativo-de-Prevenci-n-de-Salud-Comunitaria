@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevención de Salud Comunitaria | Centro de Salud</title>
+    <style>
+        :root {
+            --primary: #005b96;       /* Azul institucional formal */
+            --primary-dark: #003f6b;
+            --secondary: #e1f0fa;     /* Azul claro para fondos suaves */
+            --alert-bg: #d9534f;      /* Rojo accesible para emergencias */
+            --success: #28a745;       /* Verde para confirmaciones */
+            --text-dark: #222222;
+            --text-muted: #555555;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --border: #dddddd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        /* 1. Barra de Avisos Importantes */
+        .top-alert {
+            background-color: var(--alert-bg);
+            color: var(--white);
+            padding: 12px 40px 12px 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .top-alert a {
+            color: var(--white);
+            text-decoration: underline;
+            margin-left: 8px;
+        }
+
+        .close-alert {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Encabezado y Navegación */
+        header {
+            background-color: var(--white);
+            border-bottom: 3px solid var(--primary);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .logo p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        nav a:hover, nav a:focus {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* Contenedor Principal */
+        main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background: var(--white);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+            font-size: 1.4rem;
+        }
+
+        /* Números de Emergencia Rápidos */
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .emergency-card {
+            background-color: var(--secondary);
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .emergency-info strong {
+            display: block;
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-top: 4px;
+        }
+
+        .copy-btn {
+            background-color: var(--white);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* Documentos para Vacunación (Checklist Interactivo) */
+        .checklist-container {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+
+        .checklist-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .checklist-status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-ready {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-pending {
+            display: block;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        /* 2. Calendario de Campañas */
+        .filter-buttons {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            border: 1px solid var(--primary);
+            background: var(--white);
+            color: var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        tr:hover {
+            background-color: var(--bg-light);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge-vacuna { background-color: #d4edda; color: #155724; }
+        .badge-prevencion { background-color: #fff3cd; color: #856404; }
+
+        .btn-detail {
+            background-color: var(--secondary);
+            color: var(--primary-dark);
+            border: 1px solid var(--primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-detail:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* 3. Preguntas Frecuentes (Acordeón) */
+        .faq-controls {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 15px 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            display: none;
+            padding-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .faq-answer ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* 4. Directorio de Centros Médicos */
+        .search-bar {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .search-bar:focus {
+            outline: 2px solid var(--primary);
+            border-color: transparent;
+        }
+
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .center-card {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            background-color: var(--bg-light);
+        }
+
+        .center-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+
+        .center-card p {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        /* Modal para detalles de campaña */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsivo para tablas en móviles */
+        @media (max-width: 650px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                display: none;
+            }
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 10px;
+            }
+            td {
+                border: none;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Avisos importantes en la parte superior -->
+    <div class="top-alert" id="top-alert" role="alert">
+        AVISO IMPORTANTE: Campaña gratuita de vacunación contra la influenza activa esta semana. 
+        <a href="#campanas">Ver fechas y sedes</a>
+        <button class="close-alert" onclick="document.getElementById('top-alert').style.display='none'" aria-label="Cerrar aviso">&times;</button>
+    </div>
+
+    <!-- Encabezado -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>Salud Comunitaria</h1>
+                <p>Portal Informativo de Prevención y Atención Primaria</p>
+            </div>
+            <nav aria-label="Navegación principal">
+                <ul>
+                    <li><a href="#emergencias">Emergencias</a></li>
+                    <li><a href="#documentos">Requisitos</a></li>
+                    <li><a href="#campanas">Campañas</a></li>
+                    <li><a href="#faq">Preguntas</a></li>
+                    <li><a href="#directorio">Centros Médicos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Números de Emergencia Médica -->
+        <section id="emergencias">
+            <h2>Números de Emergencia Médica</h2>
+            <p>Ante cualquier urgencia vital, comuníquese de inmediato con las líneas de atención gratuita:</p>
+            <div class="emergency-grid">
+                <div class="emergency-card">
+                    <div class="emergency-info">
+                        <span>Ambulancia / SAMU</span>
+                        <strong>106</strong>
+                    </div>
+                    <button class="copy-btn" onclick="copiarNumero('106', this)">Copiar</button>
+                </div>
+                <div class="emergency-card">
+                    <div class="emergency-info">
+                        <span>Bomberos / Rescate</span>
+                        <strong>116</strong>
+                    </div>
+                    <button class="copy-btn" onclick="copiarNumero('116', this)">Copiar</button>
+                </div>
+                <div class="emergency-card">
+                    <div class="emergency-info">
+                        <span>Orientación Médica 24h</span>
+                        <strong>113</strong>
+                    </div>
+                    <button class="copy-btn" onclick="copiarNumero('113', this)">Copiar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentos Necesarios para Vacunarse -->
+        <section id="documentos">
+            <h2>Documentos y Requisitos para Vacunarse</h2>
+            <p style="margin-bottom: 15px;">Verifique lo que necesita llevar antes de acudir a su centro de salud. Marque las casillas para confirmar que está listo:</p>
+            
+            <div class="checklist-container">
+                <label class="checklist-item">
+                    <input type="checkbox" class="doc-check" data-obligatorio="true" onchange="verificarDocumentos()">
+                    <div>
+                        <strong>Documento de Identidad vigente (Obligatorio):</strong> DNI, Carné de Extranjería o Pasaporte.
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="doc-check" data-obligatorio="false" onchange="verificarDocumentos()">
+                    <div>
+                        <strong>Carné de Vacunación (Recomendado):</strong> Indispensable si va a recibir dosis de refuerzo o vacunas pediátricas.
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="doc-check" data-obligatorio="false" onchange="verificarDocumentos()">
+                    <div>
+                        <strong>Presencia de padre o apoderado (Solo menores de 18 años):</strong> El adulto debe presentar también su documento de identidad.
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" class="doc-check" data-obligatorio="false" onchange="verificarDocumentos()">
+                    <div>
+                        <strong>Orden médica (Solo casos especiales):</strong> Si presenta alergias graves o condiciones médicas específicas.
+                    </div>
+                </label>
+
+                <div id="checklist-status" class="checklist-status status-pending">
+                    Marque su Documento de Identidad (obligatorio) para confirmar los requisitos mínimos.
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendario de Campañas de Salud -->
+        <section id="campanas">
+            <h2>Calendario de Campañas de Salud</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filtrarCampanas('todas', this)">Todas</button>
+                <button class="filter-btn" onclick="filtrarCampanas('vacuna', this)">Vacunación</button>
+                <button class="filter-btn" onclick="filtrarCampanas('prevencion', this)">Prevención Estacional</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Campaña</th>
+                        <th>Tipo</th>
+                        <th>Lugar</th>
+                        <th>Horario</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-campanas">
+                    <tr data-tipo="vacuna">
+                        <td>12 - 16 Nov</td>
+                        <td>Vacunación contra Influenza y Neumococo</td>
+                        <td><span class="badge badge-vacuna">Vacunación</span></td>
+                        <td>Centro de Salud Central</td>
+                        <td>08:00 - 14:00</td>
+                        <td><button class="btn-detail" onclick="abrirModal('Vacunación contra Influenza y Neumococo', 'Dirigido a niños menores de 5 años, gestantes, adultos mayores de 60 años y personas con comorbilidades. Traer DNI y carné.')">Ver detalles</button></td>
+                    </tr>
+                    <tr data-tipo="prevencion">
+                        <td>18 Nov</td>
+                        <td>Charla: Prevención de Enfermedades Respiratorias</td>
+                        <td><span class="badge badge-prevencion">Prevención</span></td>
+                        <td>Auditorio Municipal</td>
+                        <td>10:00 - 12:00</td>
+                        <td><button class="btn-detail" onclick="abrirModal('Charla: Prevención Respiratoria', 'Ingreso libre para toda la comunidad. Se entregarán guías prácticas de higiene y ventilación en el hogar.')">Ver detalles</button></td>
+                    </tr>
+                    <tr data-tipo="vacuna">
+                        <td>22 Nov</td>
+                        <td>Jornada de Vacunación Pediátrica</td>
+                        <td><span class="badge badge-vacuna">Vacunación</span></td>
+                        <td>Posta Médica Zona Norte</td>
+                        <td>08:30 - 13:30</td>
+                        <td><button class="btn-detail" onclick="abrirModal('Jornada Pediátrica', 'Esquema regular para menores de 5 años. Es obligatorio que el menor acuda acompañado de su padre, madre o tutor con DNI.')">Ver detalles</button></td>
+                    </tr>
+                    <tr data-tipo="prevencion">
+                        <td>25 Nov</td>
+                        <td>Despistaje de Hipertensión y Diabetes</td>
+                        <td><span class="badge badge-prevencion">Prevención</span></td>
+                        <td>Plaza Principal</td>
+                        <td>09:00 - 13:00</td>
+                        <td><button class="btn-detail" onclick="abrirModal('Despistaje Gratuito', 'Se recomienda acudir en ayunas de al menos 8 horas para la prueba rápida de glucosa.')">Ver detalles</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Preguntas Frecuentes -->
+        <section id="faq">
+            <h2>Preguntas Frecuentes</h2>
+            <div class="faq-controls">
+                <button class="btn-detail" onclick="toggleTodasFaq(true)">Expandir todas</button>
+                <button class="btn-detail" onclick="toggleTodasFaq(false)">Contraer todas</button>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Qué documentos necesito para vacunarme? <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Para recibir cualquier vacuna en nuestros centros de salud debe presentar:</p>
+                    <ul>
+                        <li><strong>Documento de identidad vigente:</strong> DNI, Carné de Extranjería o Pasaporte (obligatorio).</li>
+                        <li><strong>Carné de vacunación:</strong> Necesario para registrar dosis de refuerzo o completar el esquema pediátrico.</li>
+                        <li><strong>Menores de edad:</strong> Deben acudir acompañados por su padre, madre o apoderado con su propio documento.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Las campañas de vacunación tienen algún costo? <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>No. Todas las vacunas del esquema nacional regular y las campañas estacionales (como influenza y neumococo) son <strong>100% gratuitas</strong> para toda la población, sin importar si cuenta con seguro médico o no.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Necesito sacar cita previa para vacunarme? <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>No es necesario sacar cita. La atención en las campañas de vacunación es por <strong>orden de llegada</strong> dentro de los horarios establecidos en el calendario de cada centro médico.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Qué reacciones leves puedo tener después de vacunarme? <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Es normal presentar molestias leves durante las primeras 24 a 48 horas, como dolor o enrojecimiento en la zona del brazo, fiebre baja o cansancio ligero. Si los síntomas persisten o son intensos, comuníquese con la línea gratuita <strong>113</strong> o acuda al centro de salud más cercano.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Cómo prevenir contagios de enfermedades respiratorias en casa? <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Siga estas medidas básicas de prevención:</p>
+                    <ul>
+                        <li>Lávese las manos frecuentemente con agua y jabón durante al menos 20 segundos.</li>
+                        <li>Ventile los ambientes cerrados abriendo ventanas al menos 15 minutos al día.</li>
+                        <li>Cúbrase la boca y nariz con el antebrazo al toser o estornudar.</li>
+                        <li>Use mascarilla si presenta síntomas de resfrío para proteger a adultos mayores y niños.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Directorio de Centros Médicos Zonales -->
+        <section id="directorio">
+            <h2>Directorio de Centros Médicos Zonales</h2>
+            <input type="text" id="buscador-centros" class="search-bar" placeholder="Buscar centro médico por nombre, zona o '24 horas'..." onkeyup="buscarCentros()">
+            
+            <div class="directory-grid" id="lista-centros">
+                <div class="center-card">
+                    <h3>Centro de Salud Central</h3>
+                    <p><strong>Dirección:</strong> Av. Salud 120, Cercado</p>
+                    <p><strong>Teléfono:</strong> (054) 221-450</p>
+                    <p><strong>Horario:</strong> Lunes a Sábado, 07:00 - 19:00</p>
+                </div>
+                <div class="center-card">
+                    <h3>Posta Médica Zona Norte</h3>
+                    <p><strong>Dirección:</strong> Calle Los Pinos 450, Sector Norte</p>
+                    <p><strong>Teléfono:</strong> (054) 340-890</p>
+                    <p><strong>Horario:</strong> Lunes a Viernes, 08:00 - 16:00</p>
+                </div>
+                <div class="center-card">
+                    <h3>Centro Materno Infantil Sur</h3>
+                    <p><strong>Dirección:</strong> Jr. Independencia 880, Zona Sur</p>
+                    <p><strong>Teléfono:</strong> (054) 412-300</p>
+                    <p><strong>Horario:</strong> Atención 24 horas (Emergencias)</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Detalles -->
+    <div id="info-modal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">&times;</button>
+            <h3 id="modal-titulo" style="color: var(--primary); margin-bottom: 10px;"></h3>
+            <p id="modal-texto" style="color: var(--text-dark);"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Red de Salud Comunitaria. Información pública para el bienestar
